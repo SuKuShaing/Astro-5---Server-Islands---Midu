@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from "astro:content";
+import { SHOW_BUY_BUTTON } from "astro:env/server";
 import Layout from "../../layouts/Layout.astro";
+import AmazonLogo from "../../components/AmazonLogo.astro";
 
 export async function getStaticPaths() {
     const books = await getCollection("books");
@@ -27,7 +29,17 @@ const { Content } = await render(book); // renderiza el contenido markdown del a
                 src={`/${img}`}
                 alt={title}
             />
-            <!-- enlace para comprar -->
+            {SHOW_BUY_BUTTON && (
+                <a 
+                    href={buy.chile}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-balance inline-flex gap-2 items-center bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg border border-yellow-500 transition duration-200 ease-in-out hover:scale-105 justify-center text-center"
+                >
+                    Comprar en Amazon
+                    <AmazonLogo />
+                </a>
+            )}
         </aside>
 
         <main class="max-w-3xl">
@@ -38,3 +50,17 @@ const { Content } = await render(book); // renderiza el contenido markdown del a
         </main>
     </div>
 </Layout>
+
+<script>
+    import { SCORE_API_ENDPOINT } from "astro:env/client";
+
+    const scoreElement = document.getElementById("score");
+
+    fetch(SCORE_API_ENDPOINT)
+    .then((res) => res.text())
+    .then((scoreValue) => {
+        if (scoreElement) {
+            scoreElement.innerHTML = `⭐ Puntuación: ${scoreValue.trim()}/5`;
+        }
+    });
+</script>
