@@ -5,16 +5,19 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'server',
   vite: {
     plugins: [tailwindcss()]
   },
   env: {
     schema: {
       SHOW_BUY_BUTTON: envField.boolean({ default: true, context: 'server', access: 'public' }),
-      SCORE_API_ENDPOINT: envField.string({ default: '3', context: 'client', access: 'public' }),
+      SCORE_API_ENDPOINT: envField.string({ default: '3', context: 'server', access: 'public' }),
     }
   }
 });
+// Output: define el tipo de salida que va a tener el proyecto
+// server: se va a ejecutar en un servidor y necesita un servidor
 // el env: lee las variables de entorno y las pone en el objeto global .env
 // el schema: define las variables de entorno que se pueden usar en el proyecto
 // el envField: define el tipo de variable de entorno que se va a usar
