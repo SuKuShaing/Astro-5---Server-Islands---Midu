@@ -3,18 +3,24 @@ import { defineConfig, envField } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
+import vercel from '@astrojs/vercel';
+
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
+
   vite: {
     plugins: [tailwindcss()]
   },
+
   env: {
     schema: {
       SHOW_BUY_BUTTON: envField.boolean({ default: true, context: 'server', access: 'public' }),
       SCORE_API_ENDPOINT: envField.string({ default: '3', context: 'server', access: 'public' }),
     }
-  }
+  },
+
+  adapter: vercel()
 });
 // Output: define el tipo de salida que va a tener el proyecto
 // server: se va a ejecutar en un servidor y necesita un servidor
