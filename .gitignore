@@ -3,7 +3,7 @@
 
 # generated types
 .astro
-# .vercel
+.vercel
 # .vscode
 
 # dependencies
